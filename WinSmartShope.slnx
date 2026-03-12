@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Application/Services.csproj" />
+  <Project Path="Domain/Domain.csproj" />
+  <Project Path="Infrastructure/Infrastructure.csproj" />
+  <Project Path="WinSmartShope/WinSmartShope.csproj" />
+</Solution>
