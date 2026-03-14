@@ -1,3 +1,9 @@
+using Domain.Interfaces;
+using Infrastructure.Repositories;
+using Microsoft.Extensions.DependencyInjection;
+using Servs;
+using WinSmartShope.Views;
+
 namespace WinSmartShope
 {
     internal static class Program
@@ -12,7 +18,16 @@ namespace WinSmartShope
             // see https://aka.ms/applicationconfiguration.
             
             ApplicationConfiguration.Initialize();
-           System.Windows.Forms.Application.Run(new MainForm());
+            IServiceCollection services = new ServiceCollection();
+            services.AddDbContext<AppDbContext>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<CustomerServices>();
+            services.AddTransient<MainForm>();
+            services.AddTransient<ListCustomers>();
+
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
+
+           System.Windows.Forms.Application.Run(serviceProvider.GetRequiredService<MainForm>());
             
         }
     }

@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SmartShope.Entities;
-namespace SmartShope.Data
-{
-    public class AppDbContext : DbContext
+
+public class AppDbContext : DbContext
     {
         public DbSet<Customer>Customers { get; set; }
         public DbSet<AccountStatement> AccountStatements { get; set; }
@@ -35,4 +33,4 @@ namespace SmartShope.Data
            // modelBuilder.Entity<DebtPage>().HasQueryFilter(x => !x.IsPaid);
         }
     }
-}
+

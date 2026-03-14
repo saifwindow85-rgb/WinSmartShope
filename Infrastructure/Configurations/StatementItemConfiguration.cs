@@ -1,14 +1,14 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SmartShope.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartShope.Data.Config
+namespace Infrastructure.Configurations
 {
     public class StatementItemConfiguration : IEntityTypeConfiguration<StatementItem>
     {

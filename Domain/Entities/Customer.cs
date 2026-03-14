@@ -1,6 +1,4 @@
-﻿using SmartShope.Entities;
-
-namespace Domain
+﻿namespace Domain.Entities
 {
     public class Customer
     {

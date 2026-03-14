@@ -1,11 +1,13 @@
-﻿using Application;
-using DTOs.CustomersDTO;
+﻿using DTOs.CustomersDTO;
+using Infrastructure.Repositories;
+using Servs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,26 +17,45 @@ namespace WinSmartShope.Views
 
     public partial class ListCustomers : Form
     {
-        public ListCustomers()
+        private CustomerServices _services;
+        public ListCustomers(CustomerServices services)
         {
             InitializeComponent();
+            _services = services;
         }
- 
+        private int _TotalPages = 0;
+        private int _PageNumber = 1;
+        private int _FiltredRecords = 0;
+        private CustomerServices.FilterType _filter = CustomerServices.FilterType.None;
+           
         private List<CustomerDTO> _customers;
-        int TotalPages;
-        int PageNumber;
         BindingSource _bs = new BindingSource();
 
+  
         private void ListCustomers_Load(object sender, EventArgs e)
         {
-            TotalPages = CustomerServices.TotalPages();
-            PageNumber = 1;
-            _customers = CustomerServices.GetCustomers();
+            LoadCustomers();
+        }
+        private void LoadCustomers()
+        {
+            if(_filter == CustomerServices.FilterType.None)
+            {
+                _customers = _services.GetAllCustomers(_PageNumber);
+                _FiltredRecords = _services.GetTotalRecords();
+            }
+            else
+            {
+                _customers = _services.FilterCustomers(_PageNumber, txtFilter.Text.Trim()
+                    , _filter, out _FiltredRecords, _services._pageSize);
+            }
             _bs.DataSource = _customers;
             dgvCustomers.DataSource = _bs;
-            lbResults.Text = $"#{_customers.Count()}Records";
-        }
+            _bs.ResetBindings(false);
+            _TotalPages = (int)Math.Ceiling((double)_FiltredRecords / _services._pageSize);
+            lbResults.Text = $"{_customers.Count}";
+            lbFiltredRecords.Text = _FiltredRecords.ToString();
 
+        }
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -48,60 +69,49 @@ namespace WinSmartShope.Views
                 txtFilter.Visible = false;
             else
                 txtFilter.Visible = true;
-        }
+            _filter = cbFilters.Text switch
+            {
+                "Id" => CustomerServices.FilterType.Id,
+                "None" => CustomerServices.FilterType.None,
+                "FullName" => CustomerServices.FilterType.FullName,
+                "Phone Number" => CustomerServices.FilterType.Phone,
+                "Email" => CustomerServices.FilterType.Email,
+                _ => CustomerServices.FilterType.None
+            };
+        } 
 
-
+  
 
         private void btnPrevPage_Click(object sender, EventArgs e)
         {
-            if (PageNumber == 1)
+            if (_PageNumber == 1)
+            {
+                _PageNumber = _TotalPages;
+                LoadCustomers();
                 return;
-                PageNumber--;
-            _customers = CustomerServices.GetCustomers(PageNumber);
-            _bs.DataSource = _customers;
-            _bs.ResetBindings(false);
-            return;
+            }
+
+            _PageNumber--;
+            LoadCustomers();
         }
 
         private void btnNextPage_Click(object sender, EventArgs e)
         {
-            if (PageNumber == TotalPages)
-                return;
+            if (_PageNumber == _TotalPages)
+            {
+                _PageNumber = 1;
+                LoadCustomers();
+            }
 
-                PageNumber++;
-            _bs.DataSource = CustomerServices.GetCustomers(PageNumber);
-            _bs.ResetBindings(false);
-             return;
+            _PageNumber++;
+            LoadCustomers();
         }
 
+      
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            string selectedFilter = cbFilters.Text.Trim();
-
-            if (selectedFilter == "None")
-            {
-                _bs.DataSource = _customers;
-                _bs.ResetBindings(false);
-                lbResults.Text = $"#{dgvCustomers.Rows.Count}Records";
-                return;
-            }
-
-            if (selectedFilter == "Id")
-            {
-                if (string.IsNullOrEmpty(txtFilter.Text.Trim()))
-                    return;
-               _bs.DataSource = CustomerServices.FilterCustomers(txtFilter.Text.Trim(), selectedFilter);
-                _bs.ResetBindings(false);
-                lbResults.Text = $"#{dgvCustomers.Rows.Count}Records";
-                return;
-            }
-            else
-            {
-                _bs.DataSource = CustomerServices.FilterCustomers(txtFilter.Text.Trim(), selectedFilter);
-                _bs.ResetBindings(false);
-                lbResults.Text = $"#{dgvCustomers.Rows.Count}Records";
-                return;
-            }
+            _PageNumber = 1;
+            LoadCustomers();
         }
 
 
