@@ -36,6 +36,8 @@
             txtFilter = new TextBox();
             cbFilters = new ComboBox();
             lbFilter = new Label();
+            lbRecords = new Label();
+            lbRecordsResult = new Label();
             ((System.ComponentModel.ISupportInitialize)pbAccountSatment).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvAccountStatments).BeginInit();
             SuspendLayout();
@@ -117,12 +119,34 @@
             lbFilter.TabIndex = 12;
             lbFilter.Text = "Filter By :";
             // 
+            // lbRecords
+            // 
+            lbRecords.AutoSize = true;
+            lbRecords.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic);
+            lbRecords.Location = new Point(28, 715);
+            lbRecords.Name = "lbRecords";
+            lbRecords.Size = new Size(96, 28);
+            lbRecords.TabIndex = 16;
+            lbRecords.Text = "Records :";
+            // 
+            // lbRecordsResult
+            // 
+            lbRecordsResult.AutoSize = true;
+            lbRecordsResult.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic);
+            lbRecordsResult.Location = new Point(121, 715);
+            lbRecordsResult.Name = "lbRecordsResult";
+            lbRecordsResult.Size = new Size(39, 28);
+            lbRecordsResult.TabIndex = 17;
+            lbRecordsResult.Text = "???";
+            // 
             // frmListAccountStatments
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1085, 749);
+            Controls.Add(lbRecordsResult);
+            Controls.Add(lbRecords);
             Controls.Add(btnFilter);
             Controls.Add(txtFilter);
             Controls.Add(cbFilters);
@@ -151,5 +175,7 @@
         private TextBox txtFilter;
         private ComboBox cbFilters;
         private Label lbFilter;
+        private Label lbRecords;
+        private Label lbRecordsResult;
     }
 }
