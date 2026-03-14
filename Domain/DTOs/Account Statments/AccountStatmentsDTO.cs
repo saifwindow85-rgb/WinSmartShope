@@ -14,6 +14,7 @@ namespace Domain.DTOs.Account_Statments
         public string? Description { get; set; }
         public bool IsClosed { get; set; }
         public bool IsPaid { get; set; }
+        public int TotalPages { get; set; }
         public decimal TotalAmount { get; set; }
     }
 }

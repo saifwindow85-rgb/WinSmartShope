@@ -9,6 +9,6 @@ namespace Domain.Interfaces
 {
     public interface IAccountStatement
     {
-        public List<AccountStatmentsDTO> LoadAccountStatments(int customerId,int pageNumber, int pageSize);
+        public List<AccountStatmentsDTO> LoadAccountStatements(int customerId,int pageNumber, int pageSize);
     }
 }
