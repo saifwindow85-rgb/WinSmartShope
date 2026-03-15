@@ -38,6 +38,11 @@
             lbFilter = new Label();
             lbRecords = new Label();
             lbRecordsResult = new Label();
+            btnClose = new Button();
+            lbfilterdResult = new Label();
+            lbFiltredRecords = new Label();
+            btnPrevPage = new Button();
+            btnNextPage = new Button();
             ((System.ComponentModel.ISupportInitialize)pbAccountSatment).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvAccountStatments).BeginInit();
             SuspendLayout();
@@ -92,6 +97,7 @@
             btnFilter.Text = "Filter";
             btnFilter.TextAlign = ContentAlignment.TopCenter;
             btnFilter.UseVisualStyleBackColor = true;
+            btnFilter.Click += btnFilter_Click;
             // 
             // txtFilter
             // 
@@ -100,6 +106,7 @@
             txtFilter.Size = new Size(218, 32);
             txtFilter.TabIndex = 14;
             txtFilter.Visible = false;
+            txtFilter.KeyPress += txtFilter_KeyPress;
             // 
             // cbFilters
             // 
@@ -109,6 +116,7 @@
             cbFilters.Name = "cbFilters";
             cbFilters.Size = new Size(176, 33);
             cbFilters.TabIndex = 13;
+            cbFilters.SelectedIndexChanged += cbFilters_SelectedIndexChanged;
             // 
             // lbFilter
             // 
@@ -139,12 +147,82 @@
             lbRecordsResult.TabIndex = 17;
             lbRecordsResult.Text = "???";
             // 
+            // btnClose
+            // 
+            btnClose.FlatStyle = FlatStyle.Flat;
+            btnClose.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            btnClose.Image = Properties.Resources.Close_32;
+            btnClose.ImageAlign = ContentAlignment.MiddleRight;
+            btnClose.Location = new Point(904, 706);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(131, 37);
+            btnClose.TabIndex = 18;
+            btnClose.Text = "Close";
+            btnClose.TextAlign = ContentAlignment.BottomCenter;
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
+            // 
+            // lbfilterdResult
+            // 
+            lbfilterdResult.AutoSize = true;
+            lbfilterdResult.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic);
+            lbfilterdResult.Location = new Point(337, 715);
+            lbfilterdResult.Name = "lbfilterdResult";
+            lbfilterdResult.Size = new Size(39, 28);
+            lbfilterdResult.TabIndex = 20;
+            lbfilterdResult.Text = "???";
+            // 
+            // lbFiltredRecords
+            // 
+            lbFiltredRecords.AutoSize = true;
+            lbFiltredRecords.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic);
+            lbFiltredRecords.Location = new Point(244, 715);
+            lbFiltredRecords.Name = "lbFiltredRecords";
+            lbFiltredRecords.Size = new Size(96, 28);
+            lbFiltredRecords.TabIndex = 19;
+            lbFiltredRecords.Text = "Records :";
+            // 
+            // btnPrevPage
+            // 
+            btnPrevPage.FlatStyle = FlatStyle.Flat;
+            btnPrevPage.Font = new Font("Segoe UI", 12.8F, FontStyle.Bold | FontStyle.Italic);
+            btnPrevPage.ForeColor = SystemColors.ActiveCaption;
+            btnPrevPage.ImageAlign = ContentAlignment.MiddleRight;
+            btnPrevPage.Location = new Point(449, 706);
+            btnPrevPage.Name = "btnPrevPage";
+            btnPrevPage.Size = new Size(131, 37);
+            btnPrevPage.TabIndex = 22;
+            btnPrevPage.Text = "<---";
+            btnPrevPage.TextAlign = ContentAlignment.BottomCenter;
+            btnPrevPage.UseVisualStyleBackColor = true;
+            btnPrevPage.Click += btnPrevPage_Click;
+            // 
+            // btnNextPage
+            // 
+            btnNextPage.FlatStyle = FlatStyle.Flat;
+            btnNextPage.Font = new Font("Segoe UI", 12.8F, FontStyle.Bold | FontStyle.Italic);
+            btnNextPage.ForeColor = SystemColors.ActiveCaption;
+            btnNextPage.ImageAlign = ContentAlignment.MiddleRight;
+            btnNextPage.Location = new Point(600, 706);
+            btnNextPage.Name = "btnNextPage";
+            btnNextPage.Size = new Size(131, 37);
+            btnNextPage.TabIndex = 21;
+            btnNextPage.Text = "--->";
+            btnNextPage.TextAlign = ContentAlignment.BottomCenter;
+            btnNextPage.UseVisualStyleBackColor = true;
+            btnNextPage.Click += btnNextPage_Click;
+            // 
             // frmListAccountStatments
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1085, 749);
+            Controls.Add(btnPrevPage);
+            Controls.Add(btnNextPage);
+            Controls.Add(lbfilterdResult);
+            Controls.Add(lbFiltredRecords);
+            Controls.Add(btnClose);
             Controls.Add(lbRecordsResult);
             Controls.Add(lbRecords);
             Controls.Add(btnFilter);
@@ -156,10 +234,11 @@
             Controls.Add(lbTitle);
             Font = new Font("Segoe UI", 11F);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "frmListAccountStatments";
             Text = "frmListAccountStatments";
             WindowState = FormWindowState.Maximized;
+            Load += frmListAccountStatments_Load;
             ((System.ComponentModel.ISupportInitialize)pbAccountSatment).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvAccountStatments).EndInit();
             ResumeLayout(false);
@@ -177,5 +256,10 @@
         private Label lbFilter;
         private Label lbRecords;
         private Label lbRecordsResult;
+        private Button btnClose;
+        private Label lbfilterdResult;
+        private Label lbFiltredRecords;
+        private Button btnPrevPage;
+        private Button btnNextPage;
     }
 }
