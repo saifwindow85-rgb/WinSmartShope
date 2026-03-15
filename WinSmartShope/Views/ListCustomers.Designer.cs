@@ -58,6 +58,7 @@
             dgvCustomers.AllowUserToOrderColumns = true;
             dgvCustomers.BackgroundColor = SystemColors.ButtonHighlight;
             dgvCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvCustomers.ContextMenuStrip = ctxtCustomers;
             dgvCustomers.Location = new Point(27, 274);
             dgvCustomers.Margin = new Padding(4);
             dgvCustomers.Name = "dgvCustomers";
@@ -202,7 +203,7 @@
             ctxtCustomers.ImageScalingSize = new Size(20, 20);
             ctxtCustomers.Items.AddRange(new ToolStripItem[] { showAccounStatementsToolStripMenuItem });
             ctxtCustomers.Name = "ctxtCustomers";
-            ctxtCustomers.Size = new Size(258, 42);
+            ctxtCustomers.Size = new Size(258, 70);
             // 
             // showAccounStatementsToolStripMenuItem
             // 
@@ -211,6 +212,7 @@
             showAccounStatementsToolStripMenuItem.Name = "showAccounStatementsToolStripMenuItem";
             showAccounStatementsToolStripMenuItem.Size = new Size(257, 38);
             showAccounStatementsToolStripMenuItem.Text = "Show AccounStatements";
+            showAccounStatementsToolStripMenuItem.Click += showAccounStatementsToolStripMenuItem_Click;
             // 
             // lbResultAftreFiltreing
             // 

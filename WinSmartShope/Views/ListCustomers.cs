@@ -1,5 +1,6 @@
 ﻿using DTOs.CustomersDTO;
 using Infrastructure.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using Servs;
 using System;
 using System.Collections.Generic;
@@ -18,27 +19,29 @@ namespace WinSmartShope.Views
     public partial class ListCustomers : Form
     {
         private CustomerServices _services;
-        public ListCustomers(CustomerServices services)
+        private IServiceProvider _serviceProvider;
+        public ListCustomers(IServiceProvider servicesProvider,CustomerServices services)
         {
             InitializeComponent();
             _services = services;
-        }
+            _serviceProvider = servicesProvider;
+        } 
         private int _TotalPages = 0;
         private int _PageNumber = 1;
         private int _FiltredRecords = 0;
         private CustomerServices.FilterType _filter = CustomerServices.FilterType.None;
-           
+
         private List<CustomerDTO> _customers;
         BindingSource _bs = new BindingSource();
 
-  
+
         private void ListCustomers_Load(object sender, EventArgs e)
         {
             LoadCustomers();
         }
         private void LoadCustomers()
         {
-            if(_filter == CustomerServices.FilterType.None)
+            if (_filter == CustomerServices.FilterType.None)
             {
                 _customers = _services.GetAllCustomers(_PageNumber);
                 _FiltredRecords = _services.GetTotalRecords();
@@ -78,9 +81,9 @@ namespace WinSmartShope.Views
                 "Email" => CustomerServices.FilterType.Email,
                 _ => CustomerServices.FilterType.None
             };
-        } 
+        }
 
-  
+
 
         private void btnPrevPage_Click(object sender, EventArgs e)
         {
@@ -107,7 +110,7 @@ namespace WinSmartShope.Views
             LoadCustomers();
         }
 
-      
+
         private void btnFilter_Click(object sender, EventArgs e)
         {
             _PageNumber = 1;
@@ -118,10 +121,17 @@ namespace WinSmartShope.Views
         private void txtFilter_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((cbFilters.Text == "Id" || cbFilters.Text == "Phone Number")
-                && !char.IsDigit(e.KeyChar)&&!char.IsControl(e.KeyChar))
+                && !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
             }
+        }
+
+        private void showAccounStatementsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int customerId = (int)dgvCustomers.CurrentRow.Cells[0].Value;
+            frmListAccountStatments frm = ActivatorUtilities.CreateInstance<frmListAccountStatments>(_serviceProvider, customerId);
+            frm.ShowDialog();
         }
     }
 }

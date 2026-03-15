@@ -19,7 +19,7 @@ namespace Servs
         {
             _repository = repository;
             if (pageSize.HasValue)
-                _pageSize = pageSize.Value;
+                _pageSize = pageSize.Value; //why it works with customers And not with Accounts
         }
         public List<CustomerDTO>GetAllCustomers(int pageNumber)
         {
@@ -51,5 +51,6 @@ namespace Servs
             Phone,
             Email
         }
+
     }
 }
