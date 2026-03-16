@@ -22,7 +22,7 @@ namespace Infrastructure.Repositories
             FullName = (c.FirstName ?? "") + " " + (c.SecondName ?? "") + " " + (c.ThirdName ?? "") + " " + (c.LastName ?? ""),
             Phone = c.Phone ?? "",
             Email = c.Email ?? "",
-            Address = c.Address
+            Address = c.Address??""
         };
 
         
