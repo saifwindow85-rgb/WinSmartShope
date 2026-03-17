@@ -1,5 +1,7 @@
+using Dependency_Injection;
 using Domain.Entities;
 using Domain.Interfaces;
+using Infrastructure.Composition_Root;
 using Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Servs;
@@ -22,15 +24,8 @@ namespace WinSmartShope
             IServiceCollection services = new ServiceCollection();
             services.AddDbContext<AppDbContext>();
 
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
-            services.AddScoped<CustomerServices>();
-
-            services.AddScoped<IAccountStatement, AccountStatementRepository>();
-            services.AddScoped<AccountStatementServices>();
-
-            services.AddScoped<IDebtPage, DebtPagesRepository>();
-            services.AddScoped<DebtPagesServices>();
-
+            services.AddInfraStructer();
+            services.AddApplication();
 
             services.AddTransient<MainForm>();
             services.AddTransient<ListCustomers>();
