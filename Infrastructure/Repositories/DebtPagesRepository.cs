@@ -1,5 +1,6 @@
 ﻿using Domain.DTOs.DebtPage;
 using Domain.Entities;
+using Domain.Helpper_Models;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,7 +22,7 @@ namespace Infrastructure.Repositories
 
         private Expression<Func<DebtPage, DebtPageDTO>> DebtPageToDTO = p => new DebtPageDTO
         {
-            Id = p.Id,
+            Id = p.DebtPageId,
             Description = p.Description,
             CreatedAt = p.CreatedAt,
             IsPaid = p.IsPaid,
@@ -29,30 +30,20 @@ namespace Infrastructure.Repositories
             TotalItems = p.StatementItems.Count(),
             TotalAmount = p.StatementItems.Sum(p => p.Total)
         };
-        public List<DebtPageDTO> LoadPages(int accountStatementId, int pageNumber, int pageSize)
+        public PagedResult<DebtPageDTO> LoadPages(int accountStatementId, int pageNumber, int pageSize, bool?value,Expression<Func<DebtPage, bool>>? filterExpr = null)
         {
-            IQueryable<DebtPage> query = _context.DebtPages.AsNoTracking().
-                Where(p => p.AccountStatementID == accountStatementId).OrderBy
-                (p => p.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize);
-
-            return query.Select(DebtPageToDTO).ToList();
-        }
-
-        public int TotalRecords(int accountStatementId)
-        {
-            return _context.DebtPages.Where(p=>p.Id == accountStatementId).Count();
-        }
-        public List<DebtPageDTO> FilterPages(int accountStatmentId, int pageNumber, bool ?value
-           , Expression<Func<DebtPage, bool>> filterExpr, int pageSize, out int filteredResult)
-        {
-            IQueryable<DebtPage> query = _context.DebtPages.Where(p => p.AccountStatementID == accountStatmentId)
-            .OrderBy(p => p.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize);
-            if(filterExpr != null)
-            {
+            IQueryable<DebtPage> query = _context.DebtPages.AsNoTracking().Where(p => p.AccountStatementID == accountStatementId);
+            if(filterExpr!=null)
                 query = query.Where(filterExpr);
-            }
-             filteredResult = query.Count();
-            return query.Select(DebtPageToDTO).ToList();
+
+            int totalCount = query.Count();
+
+            var data = query.OrderBy(p => p.DebtPageId).Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(DebtPageToDTO).ToList();
+            return new PagedResult<DebtPageDTO>
+            {
+                Data = data,
+                TotalRecords = totalCount
+            };
         }
     }
 }

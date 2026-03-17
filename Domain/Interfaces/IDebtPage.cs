@@ -1,5 +1,6 @@
 ﻿using Domain.DTOs.DebtPage;
 using Domain.Entities;
+using Domain.Helpper_Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,10 @@ namespace Domain.Interfaces
 {
     public interface IDebtPage
     {
-        public List<DebtPageDTO> LoadPages(int accountStatementId, int pageNumber, int pageSize);
-        public int TotalRecords(int accountStatementId);
-        public List<DebtPageDTO> FilterPages(int accountStatmentId, int pageNumber, bool ?value
-            , Expression<Func<DebtPage, bool>> filterExpr, int pageSize, out int filteredResult);
+        public PagedResult<DebtPageDTO> LoadPages(int accountStatementId, int pageNumber, int pageSize
+            , bool? value, Expression<Func<DebtPage, bool>>? filterExpr = null);
+
+
+
     }
 }

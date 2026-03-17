@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class AccountStatement
     {
-        public int Id { get; set; }
+        public int AccountStatementId { get; set; }
         public int CustomerId { get; set; }
         public Customer Customer { get; set; } = null!;
         public DateTime CreatedAt {  get; set; }

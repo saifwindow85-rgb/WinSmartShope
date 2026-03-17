@@ -1,5 +1,6 @@
 ﻿using Domain.DTOs.DebtPage;
 using Domain.Entities;
+using Domain.Helpper_Models;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,26 +23,15 @@ namespace Servs
                 PageSize = pageSize.Value;
         }
 
-        public List<DebtPageDTO>GetPages(int accountStatementID,int pageNumber)
+         public PagedResult<DebtPageDTO>GetPages(int accountStatementId,int pageNumber,bool ?value,FilterType ?filter)
         {
-            return _repository.LoadPages(accountStatementID, pageNumber, PageSize);
-        }
-
-        public int GetTotalRecords(int pageId)
-        {
-            return _repository.TotalRecords(pageId);
-        }
-
-        public List<DebtPageDTO>FilterPages(int accountStatementId,int pageNumber
-            ,bool ?value,FilterType filter,int pageSize,out int filtredResult)
-        {
-            Expression<Func<DebtPage, bool>> ?filterExpr = filter switch
+            Expression<Func<DebtPage, bool>>? filterExpr = filter switch
             {
                 FilterType.IsPaid => p => p.IsPaid == value,
                 FilterType.IsClosed => p => p.IsClosed == value,
                 _ => null
             };
-            return _repository.FilterPages(accountStatementId, pageNumber, value, filterExpr, pageSize, out filtredResult);
+            return _repository.LoadPages(accountStatementId, pageNumber, PageSize,value , filterExpr);
         }
          
         public enum FilterType

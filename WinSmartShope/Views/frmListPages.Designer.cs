@@ -152,7 +152,7 @@
             // cbFilters
             // 
             cbFilters.FormattingEnabled = true;
-            cbFilters.Items.AddRange(new object[] { "None", "IsPaid", "IsClosed" });
+            cbFilters.Items.AddRange(new object[] { "None", "Paid", "Closed" });
             cbFilters.Location = new Point(122, 271);
             cbFilters.Name = "cbFilters";
             cbFilters.Size = new Size(176, 33);

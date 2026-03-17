@@ -16,7 +16,7 @@ namespace Extensions
         {
             return new CustomerDTO
             {
-                Id = c.Id,
+                Id = c.CustomerId,
                 FullName = c.FullName,
                 Email = c.Email,
                 Phone = c.Phone,

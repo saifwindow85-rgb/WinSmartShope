@@ -18,7 +18,7 @@ namespace Infrastructure.Repositories
     {
         private Expression<Func<Customer, CustomerDTO>> CustomerToDTO = c => new CustomerDTO
         {
-            Id = c.Id,
+            Id = c.CustomerId,
             FullName = (c.FirstName ?? "") + " " + (c.SecondName ?? "") + " " + (c.ThirdName ?? "") + " " + (c.LastName ?? ""),
             Phone = c.Phone ?? "",
             Email = c.Email ?? "",
@@ -41,7 +41,7 @@ namespace Infrastructure.Repositories
                 query = query.Where(filterExpr);
             }
             filterCount = query.Count();
-            return query.OrderBy(c=>c.Id).Skip((pageNumber-1)*PageSize).Take(PageSize).Select(CustomerToDTO).ToList();
+            return query.OrderBy(c=>c.CustomerId).Skip((pageNumber-1)*PageSize).Take(PageSize).Select(CustomerToDTO).ToList();
 
         }
 
@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
 
         public List<CustomerDTO>LoadCustomers(int pageNumber,int pageSize)
         {
-            return _context.Customers.AsNoTracking().OrderBy(c => c.Id).Skip((pageNumber - 1)
+            return _context.Customers.AsNoTracking().OrderBy(c => c.CustomerId).Skip((pageNumber - 1)
                 * pageSize).Take(pageSize).Select(CustomerToDTO).ToList(); // اليس الافضل هنا وضع ال Skip&Take قبل ال Order
         }
 

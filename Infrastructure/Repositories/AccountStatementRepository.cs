@@ -22,7 +22,7 @@ namespace Infrastructure.Repositories
 
         public Expression<Func<AccountStatement, AccountStatmentsDTO>> AccountStatementToDTO = a => new AccountStatmentsDTO
         {
-            Id = a.Id,
+            Id = a.AccountStatementId,
             IsPaid = a.IsPaid,
             IsClosed = a.IsClosed,
             CreatedAt = a.CreatedAt,
@@ -34,15 +34,15 @@ namespace Infrastructure.Repositories
         public List<AccountStatmentsDTO> LoadAccountStatements(int customerId,int pageNumber, int pageSize)
         {
             IQueryable<AccountStatement> query = _context.AccountStatements.AsNoTracking().
-                Where(a => a.CustomerId == customerId).OrderBy(a=>a.Id).ThenBy(a=>a.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+                Where(a => a.CustomerId == customerId).OrderBy(a=>a.AccountStatementId).ThenBy(a=>a.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize);
             return query.Select(AccountStatementToDTO).ToList();
         }
 
         public List<AccountStatmentsDTO>FilterAccountStatements(int customerId,int pageNumber,string value,Expression<Func<AccountStatement,bool>>?
             filterExpr,int pageSize,out int filtredResult)
         {
-            IQueryable<AccountStatement> query = _context.AccountStatements.AsNoTracking(). Where(a=>a.Id == customerId).
-               OrderBy(a => a.Id).ThenBy(a=>a.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            IQueryable<AccountStatement> query = _context.AccountStatements.AsNoTracking(). Where(a=>a.AccountStatementId == customerId).
+               OrderBy(a => a.AccountStatementId).ThenBy(a=>a.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize);
             if(filterExpr != null)
             {
                 query = query.Where(filterExpr);
@@ -54,7 +54,7 @@ namespace Infrastructure.Repositories
         public List<AccountStatmentsDTO>FilteringAccountStatementsPaidAndClosed(int customerId,int pageNumber,bool value,
             Expression<Func<AccountStatement,bool>>?filterExpr,int pageSize,out int filtredResult)
         {
-            IQueryable<AccountStatement> query = _context.AccountStatements.AsNoTracking().Where(a=>a.Id ==customerId).OrderBy(a => a.Id).ThenBy(a=>a.CreatedAt);
+            IQueryable<AccountStatement> query = _context.AccountStatements.AsNoTracking().Where(a=>a.AccountStatementId ==customerId).OrderBy(a => a.AccountStatementId).ThenBy(a=>a.CreatedAt);
             if(filterExpr !=null)
             {
                 query = query.Where(filterExpr);
@@ -65,7 +65,7 @@ namespace Infrastructure.Repositories
 
         public int GetTotalRecords(int customerId)
         {
-            return _context.AccountStatements.AsNoTracking().Where(a => a.Id == customerId).Count();
+            return _context.AccountStatements.AsNoTracking().Where(a => a.AccountStatementId == customerId).Count();
         }
     }
 }

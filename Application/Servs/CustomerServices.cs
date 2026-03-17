@@ -26,7 +26,7 @@ namespace Servs
         {
             Expression<Func<Customer, bool>>? filterExpr = filter switch
             {
-                FilterType.Id => c => c.Id.ToString() == value,
+                FilterType.Id => c => c.CustomerId.ToString() == value,
                      FilterType.FullName => c => ((c.FirstName ?? "") + " " +
                      (c.SecondName ?? "") + " " + (c.ThirdName ?? "") + " " + (c.LastName ?? "")).Contains(value),
 

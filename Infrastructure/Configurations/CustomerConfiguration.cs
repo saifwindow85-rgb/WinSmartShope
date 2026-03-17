@@ -13,8 +13,8 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            builder.HasKey(x => x.CustomerId);
+            builder.Property(x => x.CustomerId).ValueGeneratedOnAdd();
 
             builder.Property(x => x.FirstName).HasColumnType("NVARCHAR").HasMaxLength(50).IsRequired();
             builder.Property(x => x.LastName).HasColumnType("NVARCHAR").HasMaxLength(50).IsRequired();
@@ -26,11 +26,11 @@ namespace Infrastructure.Configurations
             builder.HasMany(x => x.AccountStatements).WithOne(x => x.Customer).HasForeignKey(x=>x.CustomerId).IsRequired();
             builder.ToTable("Customers");
                      builder.HasData(
-             new Customer { Id = 1, FirstName = "John", LastName = "Smith",SecondName = "Ali",ThirdName = "Ahmed", Phone = "770100111", Email = "john@example.com", Address = "New York"},
-             new Customer { Id = 2, FirstName = "Alice", LastName = "Johnson", SecondName = "Ali", ThirdName = "Ahmed", Phone = "770100222", Email = "alice@example.com", Address = "Los Angeles" },
-             new Customer { Id = 3, FirstName = "Michael", LastName = "Brown", SecondName = "Ali", ThirdName = "Ahmed", Phone = "770100333", Email = "michael@example.com", Address = "Chicago" },
-             new Customer { Id = 4, FirstName = "Emma", LastName = "Davis", SecondName = "Ali", ThirdName = "Ahmed", Phone = "770100444", Email = "emma@example.com", Address = "Houston" },
-             new Customer { Id = 5, FirstName = "David", LastName = "Wilson", SecondName = "Ali", ThirdName = "Ahmed", Phone = "770100555", Email = "david@example.com", Address = "Philadelphia" }
+             new Customer { CustomerId = 1, FirstName = "John", LastName = "Smith",SecondName = "Ali",ThirdName = "Ahmed", Phone = "770100111", Email = "john@example.com", Address = "New York"},
+             new Customer { CustomerId = 2, FirstName = "Alice", LastName = "Johnson", SecondName = "Ali", ThirdName = "Ahmed", Phone = "770100222", Email = "alice@example.com", Address = "Los Angeles" },
+             new Customer { CustomerId = 3, FirstName = "Michael", LastName = "Brown", SecondName = "Ali", ThirdName = "Ahmed", Phone = "770100333", Email = "michael@example.com", Address = "Chicago" },
+             new Customer { CustomerId = 4, FirstName = "Emma", LastName = "Davis", SecondName = "Ali", ThirdName = "Ahmed", Phone = "770100444", Email = "emma@example.com", Address = "Houston" },
+             new Customer { CustomerId = 5, FirstName = "David", LastName = "Wilson", SecondName = "Ali", ThirdName = "Ahmed", Phone = "770100555", Email = "david@example.com", Address = "Philadelphia" }
          );
         }
     }

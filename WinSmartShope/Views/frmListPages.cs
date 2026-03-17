@@ -1,4 +1,5 @@
 ﻿using Domain.DTOs.DebtPage;
+using Domain.Helpper_Models;
 using Servs;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace WinSmartShope.Views
             _accountStatementId = accountStatmentId;
         }
         private DebtPagesServices.FilterType _filter = DebtPagesServices.FilterType.None;
-        private List<DebtPageDTO> _debtPages;
+        private PagedResult<DebtPageDTO> _debtPages;
         private int _pageNumber = 1;
         private int _totalPages = 0;
         private int _totalRecords = 0;
@@ -33,18 +34,9 @@ namespace WinSmartShope.Views
 
         private void LoadData()
         {
-            if (_filter == DebtPagesServices.FilterType.None)
-            {
-                _debtPages = _services.GetPages(_accountStatementId, _pageNumber);
-                _totalRecords = _services.GetTotalRecords(_accountStatementId);
-            }
-            else
-            {
-                _debtPages = _services.FilterPages(_accountStatementId, _pageNumber, _filterValue,
-                    _filter, _services.PageSize, out _filtredRecords);
-
-            }
-            _bs.DataSource = _debtPages;
+            _debtPages = _services.GetPages(_accountStatementId, _pageNumber, _filterValue, _filter);
+            _totalRecords = _debtPages.TotalRecords;
+            _bs.DataSource = _debtPages.Data;
             _totalPages = (int)Math.Ceiling((double)_totalRecords / _services.PageSize);
             dgvDebtPages.DataSource = _bs;
             _bs.ResetBindings(false);
@@ -79,8 +71,8 @@ namespace WinSmartShope.Views
             gbChoices.Visible = cbFilters.Text.Trim() != "None";
             _filter = cbFilters.Text switch
             {
-                "IsPaid" => DebtPagesServices.FilterType.IsPaid,
-                "IsClosed" => DebtPagesServices.FilterType.IsClosed,
+                "Paid" => DebtPagesServices.FilterType.IsPaid,
+                "Closed" => DebtPagesServices.FilterType.IsClosed,
                 "None" => DebtPagesServices.FilterType.None,
                 _ => DebtPagesServices.FilterType.None,
             };

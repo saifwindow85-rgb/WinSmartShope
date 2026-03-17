@@ -54,7 +54,7 @@ namespace Servs
             Expression<Func<AccountStatement, bool>>? filterExpr = filter switch
             {
                 FilterType.Description => a => (a.Description ?? "").Contains(value),
-                FilterType.Id => a => a.Id.ToString() == value,
+                FilterType.Id => a => a.AccountStatementId.ToString() == value,
                 _ => null
             };
             return _repository.FilterAccountStatements(customerId, pageNumber, value, filterExpr!, PageSize,out filtredResult);

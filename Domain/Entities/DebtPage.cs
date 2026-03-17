@@ -8,7 +8,7 @@ namespace Domain.Entities
 {
     public class DebtPage
     {
-        public int Id { get; set; }
+        public int DebtPageId { get; set; }
         public string Description { get; set; } = null!;
         public int AccountStatementID { get; set; }
         public AccountStatement AccountStatement { get; set; } = null!;

@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public partial class StatementItem
     {
-        public int Id { get; set; }
+        public int StatementItemId { get; set; }
         public int DebtPageId { get; set; }
         public DebtPage DebtPage { get; set; } = null!;
         public string ItemName { get; set; } = null!;
