@@ -37,5 +37,22 @@ namespace Infrastructure.Repositories
 
             return query.Select(DebtPageToDTO).ToList();
         }
+
+        public int TotalRecords(int accountStatementId)
+        {
+            return _context.DebtPages.Where(p=>p.Id == accountStatementId).Count();
+        }
+        public List<DebtPageDTO> FilterPages(int accountStatmentId, int pageNumber, bool ?value
+           , Expression<Func<DebtPage, bool>> filterExpr, int pageSize, out int filteredResult)
+        {
+            IQueryable<DebtPage> query = _context.DebtPages.Where(p => p.AccountStatementID == accountStatmentId)
+            .OrderBy(p => p.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            if(filterExpr != null)
+            {
+                query = query.Where(filterExpr);
+            }
+             filteredResult = query.Count();
+            return query.Select(DebtPageToDTO).ToList();
+        }
     }
 }

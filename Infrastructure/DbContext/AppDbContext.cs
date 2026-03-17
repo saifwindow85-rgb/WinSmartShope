@@ -30,7 +30,6 @@ public class AppDbContext : DbContext
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-           // modelBuilder.Entity<DebtPage>().HasQueryFilter(x => !x.IsPaid);
         }
     }
 

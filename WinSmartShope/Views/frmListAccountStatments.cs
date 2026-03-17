@@ -1,4 +1,5 @@
 ﻿using Domain.DTOs.Account_Statments;
+using Microsoft.Extensions.DependencyInjection;
 using Servs;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,14 @@ namespace WinSmartShope.Views
     {
         private AccountStatementServices _services;
         private List<AccountStatmentsDTO> _accountStatements;
+        private IServiceProvider _serviceProvider;
         private int _customerId = -1;
-        public frmListAccountStatments(AccountStatementServices services, int customerId)
+        public frmListAccountStatments(IServiceProvider serviceProvider, AccountStatementServices services, int customerId)
         {
             InitializeComponent();
             _services = services;
             _customerId = customerId;
+            _serviceProvider = serviceProvider;
         }
 
         private int _pageNumber = 1;
@@ -53,7 +56,7 @@ namespace WinSmartShope.Views
             {
                 _accountStatements = _services.FilterAccountStatements(_customerId, _pageNumber, txtFilter.Text.Trim(), _filter, out _filtredResult);
             }
-                _bs.DataSource = _accountStatements;
+            _bs.DataSource = _accountStatements;
             dgvAccountStatments.DataSource = _bs;
             _bs.ResetBindings(false);
             _totalPages = (int)Math.Ceiling((double)_TotalRecords / _services.PageSize);
@@ -73,20 +76,20 @@ namespace WinSmartShope.Views
 
         private void ChangeBooleanValue()
         {
-            if(_filter == AccountStatementServices.FilterType.IsPaid)
+            if (_filter == AccountStatementServices.FilterType.IsPaid)
             {
                 if (txtFilter.Text.Trim().ToLower() == "paid")
                     _value = true;
                 else
                     _value = false;
-                
+
             }
-            if(_filter == AccountStatementServices.FilterType.IsClosed)
+            if (_filter == AccountStatementServices.FilterType.IsClosed)
             {
-                if(txtFilter.Text.Trim().ToLower() == "closed")
+                if (txtFilter.Text.Trim().ToLower() == "closed")
                     _value = true;
                 else
-                    _value= false;
+                    _value = false;
             }
         }
 
@@ -142,6 +145,13 @@ namespace WinSmartShope.Views
             }
             _pageNumber--;
             LoadAccountStatements();
+        }
+
+        private void showPageDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int pageId = (int)dgvAccountStatments.CurrentRow.Cells[0].Value;
+            frmListPages frm = ActivatorUtilities.CreateInstance<frmListPages>(_serviceProvider, pageId);
+            frm.ShowDialog();
         }
     }
 }

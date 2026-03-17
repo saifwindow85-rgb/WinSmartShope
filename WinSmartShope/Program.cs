@@ -28,9 +28,14 @@ namespace WinSmartShope
             services.AddScoped<IAccountStatement, AccountStatementRepository>();
             services.AddScoped<AccountStatementServices>();
 
+            services.AddScoped<IDebtPage, DebtPagesRepository>();
+            services.AddScoped<DebtPagesServices>();
+
+
             services.AddTransient<MainForm>();
             services.AddTransient<ListCustomers>();
             services.AddTransient<frmListAccountStatments>();
+            services.AddTransient<frmListPages>();
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 

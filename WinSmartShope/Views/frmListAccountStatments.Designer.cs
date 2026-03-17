@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmListAccountStatments));
             lbTitle = new Label();
             pbAccountSatment = new PictureBox();
@@ -43,8 +44,11 @@
             lbFiltredRecords = new Label();
             btnPrevPage = new Button();
             btnNextPage = new Button();
+            ctAccountStatements = new ContextMenuStrip(components);
+            showPageDetailsToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pbAccountSatment).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvAccountStatments).BeginInit();
+            ctAccountStatements.SuspendLayout();
             SuspendLayout();
             // 
             // lbTitle
@@ -212,12 +216,30 @@
             btnNextPage.UseVisualStyleBackColor = true;
             btnNextPage.Click += btnNextPage_Click;
             // 
+            // ctAccountStatements
+            // 
+            ctAccountStatements.ImageScalingSize = new Size(20, 20);
+            ctAccountStatements.Items.AddRange(new ToolStripItem[] { showPageDetailsToolStripMenuItem });
+            ctAccountStatements.Name = "ctAccountStatements";
+            ctAccountStatements.Size = new Size(217, 42);
+            // 
+            // showPageDetailsToolStripMenuItem
+            // 
+            showPageDetailsToolStripMenuItem.Font = new Font("Segoe UI", 9F);
+            showPageDetailsToolStripMenuItem.Image = Properties.Resources.List_32;
+            showPageDetailsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
+            showPageDetailsToolStripMenuItem.Name = "showPageDetailsToolStripMenuItem";
+            showPageDetailsToolStripMenuItem.Size = new Size(216, 38);
+            showPageDetailsToolStripMenuItem.Text = "Show Page Details";
+            showPageDetailsToolStripMenuItem.Click += showPageDetailsToolStripMenuItem_Click;
+            // 
             // frmListAccountStatments
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
             ClientSize = new Size(1085, 749);
+            ContextMenuStrip = ctAccountStatements;
             Controls.Add(btnPrevPage);
             Controls.Add(btnNextPage);
             Controls.Add(lbfilterdResult);
@@ -241,6 +263,7 @@
             Load += frmListAccountStatments_Load;
             ((System.ComponentModel.ISupportInitialize)pbAccountSatment).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvAccountStatments).EndInit();
+            ctAccountStatements.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -261,5 +284,7 @@
         private Label lbFiltredRecords;
         private Button btnPrevPage;
         private Button btnNextPage;
+        private ContextMenuStrip ctAccountStatements;
+        private ToolStripMenuItem showPageDetailsToolStripMenuItem;
     }
 }

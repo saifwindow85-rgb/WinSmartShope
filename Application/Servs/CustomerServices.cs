@@ -1,10 +1,6 @@
-﻿using Azure;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces;
 using DTOs.CustomersDTO;
-using Extensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -19,7 +15,7 @@ namespace Servs
         {
             _repository = repository;
             if (pageSize.HasValue)
-                _pageSize = pageSize.Value; //why it works with customers And not with Accounts
+                _pageSize = pageSize.Value;
         }
         public List<CustomerDTO>GetAllCustomers(int pageNumber)
         {
