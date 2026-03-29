@@ -1,5 +1,6 @@
 ﻿using Domain.DTOs.Account_Statments;
 using Domain.Entities;
+using Domain.Helpper_Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,6 @@ namespace Domain.Interfaces
 {
     public interface IAccountStatement
     {
-        public List<AccountStatmentsDTO> LoadAccountStatements(int customerId,int pageNumber, int pageSize);
-        public List<AccountStatmentsDTO> FilterAccountStatements(int customerId,int pageNumber, string value, Expression<Func<AccountStatement,
-            bool>> filterExpr, int pageSize, out int filtredResult);
-        public List<AccountStatmentsDTO> FilteringAccountStatementsPaidAndClosed(int customerId,int pageNumber, bool value,
-          Expression<Func<AccountStatement, bool>> filterExpr, int pageSize,out int filtredResult);
-
-        public int GetTotalRecords(int customerId);
+        public PagedResult<AccountStatmentsDTO> LoadAccountStatements(int customerId, int pageSize, int pageNumber, Expression<Func<AccountStatement, bool>>? filterExpr = null);
     }
 }

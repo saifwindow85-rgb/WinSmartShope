@@ -90,10 +90,7 @@ namespace WinSmartShope.Views
             };
         }
 
-        private void rbTrue_CheckedChanged(object sender, EventArgs e)
-        {
-            ChangeFilterValue();
-        }
+
         private void ChangeFilterValue()
         {
             if (rbTrue.Checked)
@@ -103,14 +100,11 @@ namespace WinSmartShope.Views
             LoadData();
         }
 
-        private void rbNo_CheckedChanged(object sender, EventArgs e)
-        {
-            ChangeFilterValue();
-        }
+
 
         private void btnPrevPage_Click(object sender, EventArgs e)
         {
-            if(_pageNumber == 1)
+            if (_pageNumber == 1)
             {
                 _pageNumber = _totalPages;
                 LoadData();
@@ -118,6 +112,16 @@ namespace WinSmartShope.Views
             }
             _pageNumber--;
             LoadData();
+        }
+
+        private void rbNo_Click(object sender, EventArgs e)
+        {
+            ChangeFilterValue();
+        }
+
+        private void rbTrue_Click(object sender, EventArgs e)
+        {
+            ChangeFilterValue();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Domain.DTOs.Account_Statments;
 using Domain.Entities;
+using Domain.Helpper_Models;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,41 +33,20 @@ namespace Infrastructure.Repositories
             TotalAmount = a.DebtPages.SelectMany(a=>a.StatementItems).Sum(a=>a.Total)
 
         };
-        public List<AccountStatmentsDTO> LoadAccountStatements(int customerId,int pageNumber, int pageSize)
-        {
-            IQueryable<AccountStatement> query = _context.AccountStatements.AsNoTracking().
-                Where(a => a.CustomerId == customerId).OrderBy(a=>a.AccountStatementId).ThenBy(a=>a.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize);
-            return query.Select(AccountStatementToDTO).ToList();
-        }
 
-        public List<AccountStatmentsDTO>FilterAccountStatements(int customerId,int pageNumber,string value,Expression<Func<AccountStatement,bool>>?
-            filterExpr,int pageSize,out int filtredResult)
+        public PagedResult<AccountStatmentsDTO> LoadAccountStatements(int customerId, int pageSize, int pageNumber, Expression<Func<AccountStatement, bool>>? filterExpr = null)
         {
-            IQueryable<AccountStatement> query = _context.AccountStatements.AsNoTracking(). Where(a=>a.AccountStatementId == customerId).
-               OrderBy(a => a.AccountStatementId).ThenBy(a=>a.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            var query = _context.AccountStatements.AsNoTracking().Where(a => a.CustomerId == customerId);
             if(filterExpr != null)
-            {
                 query = query.Where(filterExpr);
-            }
-            filtredResult = query.Count();
-            return query.Select(AccountStatementToDTO).ToList();
-        }
 
-        public List<AccountStatmentsDTO>FilteringAccountStatementsPaidAndClosed(int customerId,int pageNumber,bool value,
-            Expression<Func<AccountStatement,bool>>?filterExpr,int pageSize,out int filtredResult)
-        {
-            IQueryable<AccountStatement> query = _context.AccountStatements.AsNoTracking().Where(a=>a.AccountStatementId ==customerId).OrderBy(a => a.AccountStatementId).ThenBy(a=>a.CreatedAt);
-            if(filterExpr !=null)
-            {
-                query = query.Where(filterExpr);
-            }
-            filtredResult = query.Count();
-            return query.Select(AccountStatementToDTO).ToList();
-        }
+            int totalRecords = query.Count();
+            var data = query.OrderBy(a => a.AccountStatementId).Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(AccountStatementToDTO).ToList();
+            return new PagedResult<AccountStatmentsDTO>
+            { Data = data,
+              TotalRecords = totalRecords
+            };
 
-        public int GetTotalRecords(int customerId)
-        {
-            return _context.AccountStatements.AsNoTracking().Where(a => a.AccountStatementId == customerId).Count();
         }
     }
 }

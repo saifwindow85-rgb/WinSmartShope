@@ -30,7 +30,7 @@ namespace Infrastructure.Repositories
             TotalItems = p.StatementItems.Count(),
             TotalAmount = p.StatementItems.Sum(p => p.Total)
         };
-        public PagedResult<DebtPageDTO> LoadPages(int accountStatementId, int pageNumber, int pageSize, bool?value,Expression<Func<DebtPage, bool>>? filterExpr = null)
+        public PagedResult<DebtPageDTO> LoadPages(int accountStatementId, int pageNumber, int pageSize,Expression<Func<DebtPage, bool>>? filterExpr = null)
         {
             IQueryable<DebtPage> query = _context.DebtPages.AsNoTracking().Where(p => p.AccountStatementID == accountStatementId);
             if(filterExpr!=null)

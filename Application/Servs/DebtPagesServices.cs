@@ -31,7 +31,7 @@ namespace Servs
                 FilterType.IsClosed => p => p.IsClosed == value,
                 _ => null
             };
-            return _repository.LoadPages(accountStatementId, pageNumber, PageSize,value , filterExpr);
+            return _repository.LoadPages(accountStatementId, pageNumber, PageSize , filterExpr);
         }
          
         public enum FilterType

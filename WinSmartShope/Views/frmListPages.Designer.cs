@@ -204,7 +204,7 @@
             rbTrue.TabStop = true;
             rbTrue.Text = "Yes";
             rbTrue.UseVisualStyleBackColor = true;
-            rbTrue.CheckedChanged += rbTrue_CheckedChanged;
+            rbTrue.Click += rbTrue_Click;
             // 
             // rbNo
             // 
@@ -216,7 +216,7 @@
             rbNo.TabStop = true;
             rbNo.Text = "No";
             rbNo.UseVisualStyleBackColor = true;
-            rbNo.CheckedChanged += rbNo_CheckedChanged;
+            rbNo.Click += rbNo_Click;
             // 
             // frmListPages
             // 

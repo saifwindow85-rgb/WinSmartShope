@@ -1,4 +1,5 @@
 ﻿using Domain.DTOs.Account_Statments;
+using Domain.Helpper_Models;
 using Microsoft.Extensions.DependencyInjection;
 using Servs;
 using System;
@@ -17,7 +18,7 @@ namespace WinSmartShope.Views
     public partial class frmListAccountStatments : Form
     {
         private AccountStatementServices _services;
-        private List<AccountStatmentsDTO> _accountStatements;
+        private PagedResult<AccountStatmentsDTO> _accountStatements;
         private IServiceProvider _serviceProvider;
         private int _customerId = -1;
         public frmListAccountStatments(IServiceProvider serviceProvider, AccountStatementServices services, int customerId)
@@ -29,39 +30,40 @@ namespace WinSmartShope.Views
         }
 
         private int _pageNumber = 1;
-        private int _TotalRecords = 0;
-        private int _filtredResult = 0;
+        private int _totalRecords = 0;
         private int _totalPages = 0;
 
-        private bool _value = false;
+        private string? _stringValue = null;
+
+        private bool? _booleanValue = null;
 
         private BindingSource _bs = new BindingSource();
 
         private AccountStatementServices.FilterType _filter = AccountStatementServices.FilterType.None;
 
+        private void LoadData()
+        {
+            LoadAccountStatements();
+            SetBindings();
+            SetAccountStatementsDetails();
+        }
         private void LoadAccountStatements()
         {
-            if (_filter == AccountStatementServices.FilterType.None)
-            {
-                _accountStatements = _services.GetAccountStatments(_customerId, _pageNumber);
-                _TotalRecords = _services.GetTotalRecords(_customerId);
-            }
-            else if (_filter == AccountStatementServices.FilterType.IsPaid || _filter == AccountStatementServices.FilterType.IsClosed)
-            {
-                ChangeBooleanValue();
-                _accountStatements = _services.FilterAccountStatementsPaidAndClosed(_customerId, _pageNumber
-                    , _value, _filter, out _filtredResult);
-            }
-            else
-            {
-                _accountStatements = _services.FilterAccountStatements(_customerId, _pageNumber, txtFilter.Text.Trim(), _filter, out _filtredResult);
-            }
+            _accountStatements = _services.GetAccountStatements(_customerId, _pageNumber, _booleanValue, _stringValue, _filter);
+        }
+
+        private void SetBindings()
+        {
             _bs.DataSource = _accountStatements;
             dgvAccountStatments.DataSource = _bs;
             _bs.ResetBindings(false);
-            _totalPages = (int)Math.Ceiling((double)_TotalRecords / _services.PageSize);
-            lbRecordsResult.Text = $"{_accountStatements.Count}";
-            lbfilterdResult.Text = _filtredResult.ToString();
+        }
+        
+        private void SetAccountStatementsDetails()
+        {
+            _totalRecords = _accountStatements.TotalRecords;
+            _totalPages = (int)Math.Ceiling((double)_totalRecords / _services.PageSize);
+
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -71,7 +73,7 @@ namespace WinSmartShope.Views
 
         private void frmListAccountStatments_Load(object sender, EventArgs e)
         {
-            LoadAccountStatements();
+            LoadData();
         }
 
         private void ChangeBooleanValue()
@@ -79,17 +81,17 @@ namespace WinSmartShope.Views
             if (_filter == AccountStatementServices.FilterType.IsPaid)
             {
                 if (txtFilter.Text.Trim().ToLower() == "paid")
-                    _value = true;
+                    _booleanValue = true;
                 else
-                    _value = false;
+                    _booleanValue = false;
 
             }
             if (_filter == AccountStatementServices.FilterType.IsClosed)
             {
                 if (txtFilter.Text.Trim().ToLower() == "closed")
-                    _value = true;
+                    _booleanValue = true;
                 else
-                    _value = false;
+                    _booleanValue = false;
             }
         }
 
@@ -106,14 +108,24 @@ namespace WinSmartShope.Views
                 _ => AccountStatementServices.FilterType.None
             };
         }
+        private void ChangeStringValue()
+        {
 
+            if (_filter == AccountStatementServices.FilterType.IsClosed
+                || _filter == AccountStatementServices.FilterType.IsPaid)
+            {
+                _stringValue = null;
+            }
+        }
         private void btnFilter_Click(object sender, EventArgs e)
         {
+            ChangeStringValue();
+            ChangeBooleanValue();
             _pageNumber = 1;
             if (_filter == AccountStatementServices.FilterType.Id && string.IsNullOrEmpty(txtFilter.Text.Trim()))
                 return;
 
-            LoadAccountStatements();
+            LoadData();
         }
 
         private void txtFilter_KeyPress(object sender, KeyPressEventArgs e)
@@ -127,12 +139,12 @@ namespace WinSmartShope.Views
             if (_pageNumber == _totalPages)
             {
                 _pageNumber = 1;
-                LoadAccountStatements();
+                LoadData();
                 return;
             }
 
             _pageNumber++;
-            LoadAccountStatements();
+            LoadData();
         }
 
         private void btnPrevPage_Click(object sender, EventArgs e)
@@ -140,11 +152,11 @@ namespace WinSmartShope.Views
             if (_pageNumber == 1)
             {
                 _pageNumber = _totalPages;
-                LoadAccountStatements();
+                LoadData();
                 return;
             }
             _pageNumber--;
-            LoadAccountStatements();
+            LoadData();
         }
 
         private void showPageDetailsToolStripMenuItem_Click(object sender, EventArgs e)

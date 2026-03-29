@@ -13,9 +13,6 @@ namespace Domain.Interfaces
     public interface IDebtPage
     {
         public PagedResult<DebtPageDTO> LoadPages(int accountStatementId, int pageNumber, int pageSize
-            , bool? value, Expression<Func<DebtPage, bool>>? filterExpr = null);
-
-
-
+            , Expression<Func<DebtPage, bool>>? filterExpr = null);
     }
 }
