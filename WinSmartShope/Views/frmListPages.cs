@@ -28,20 +28,32 @@ namespace WinSmartShope.Views
         private int _pageNumber = 1;
         private int _totalPages = 0;
         private int _totalRecords = 0;
-        private int _filtredRecords = 0;
         private bool? _filterValue = null;
         private BindingSource _bs = new BindingSource();
 
         private void LoadData()
         {
-            _debtPages = _services.GetPages(_accountStatementId, _pageNumber, _filterValue, _filter);
+            LoadPages();
+            SetBindings();
+            SetPagesDetails();
+        }
+        private void SetPagesDetails()
+        {
             _totalRecords = _debtPages.TotalRecords;
-            _bs.DataSource = _debtPages.Data;
             _totalPages = (int)Math.Ceiling((double)_totalRecords / _services.PageSize);
+            lbRecordsResult.Text = _totalRecords.ToString();
+        }
+
+        private void SetBindings()
+        {
+            _bs.DataSource = _debtPages.Data;
             dgvDebtPages.DataSource = _bs;
             _bs.ResetBindings(false);
-            lbRecordsResult.Text = _totalRecords.ToString();
-            lbfilterdResult.Text = _filtredRecords.ToString();
+        }
+
+        private void LoadPages()
+        {
+            _debtPages = _services.GetPages(_accountStatementId, _pageNumber, _filterValue, _filter);
         }
 
         private void btnClose_Click(object sender, EventArgs e)

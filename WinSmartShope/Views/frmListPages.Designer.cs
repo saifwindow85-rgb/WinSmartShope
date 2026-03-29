@@ -31,8 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmListPages));
             btnPrevPage = new Button();
             btnNextPage = new Button();
-            lbfilterdResult = new Label();
-            lbFiltredRecords = new Label();
             btnClose = new Button();
             lbRecordsResult = new Label();
             lbRecords = new Label();
@@ -79,26 +77,6 @@
             btnNextPage.TextAlign = ContentAlignment.BottomCenter;
             btnNextPage.UseVisualStyleBackColor = true;
             btnNextPage.Click += btnNextPage_Click;
-            // 
-            // lbfilterdResult
-            // 
-            lbfilterdResult.AutoSize = true;
-            lbfilterdResult.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic);
-            lbfilterdResult.Location = new Point(337, 709);
-            lbfilterdResult.Name = "lbfilterdResult";
-            lbfilterdResult.Size = new Size(39, 28);
-            lbfilterdResult.TabIndex = 34;
-            lbfilterdResult.Text = "???";
-            // 
-            // lbFiltredRecords
-            // 
-            lbFiltredRecords.AutoSize = true;
-            lbFiltredRecords.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic);
-            lbFiltredRecords.Location = new Point(244, 709);
-            lbFiltredRecords.Name = "lbFiltredRecords";
-            lbFiltredRecords.Size = new Size(96, 28);
-            lbFiltredRecords.TabIndex = 33;
-            lbFiltredRecords.Text = "Records :";
             // 
             // btnClose
             // 
@@ -249,8 +227,6 @@
             Controls.Add(gbChoices);
             Controls.Add(btnPrevPage);
             Controls.Add(btnNextPage);
-            Controls.Add(lbfilterdResult);
-            Controls.Add(lbFiltredRecords);
             Controls.Add(btnClose);
             Controls.Add(lbRecordsResult);
             Controls.Add(lbRecords);
@@ -279,8 +255,6 @@
 
         private Button btnPrevPage;
         private Button btnNextPage;
-        private Label lbfilterdResult;
-        private Label lbFiltredRecords;
         private Button btnClose;
         private Label lbRecordsResult;
         private Label lbRecords;
